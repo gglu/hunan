@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-public class IndexAct {
+public class IndexAct { 
 
 	
 	@RequestMapping("index.do")

@@ -4,3 +4,10 @@
 *.jar
 *.war
 *.ear
+.#webclasspath
+.classpath
+.project
+.tomcaplugin
+work
+target
+.settings
