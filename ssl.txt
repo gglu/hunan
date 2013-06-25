@@ -1,0 +1,36 @@
+openssl genrsa -des3 -out server.key 1024
+
+openssl req -new -key server.key -out server.csr
+
+cp server.key server.key.org
+
+openssl rsa -in server.key.org -out server.key
+
+#openssl req -new -x509 -nodes -sha1 -days 365 -key server.key -out
+
+openssl x509 -req -days 9999 -in server.csr -signkey server.key -out server.crt
+
+
+server {
+        listen       443;
+        server_name  localhost;
+
+        ssl                  on;
+        ssl_certificate      e:/ssl_test/server.pem;
+        ssl_certificate_key  e:/ssl_test/server.key;
+
+        ssl_session_timeout  5m;
+
+        ssl_protocols  SSLv2 SSLv3 TLSv1;
+        ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+        ssl_prefer_server_ciphers   on;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+		
+		location /injury {
+            proxy_pass http://test;
+        }
+    }
