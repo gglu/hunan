@@ -9,11 +9,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
@@ -45,13 +48,21 @@ public class UserDao extends InjuryBaseDao<UserInfo> implements IUserDao{
 			public List<UserInfo> doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				// TODO Auto-generated method stub
-				Query query  = session.createQuery("from UserInfo");
 				
-				query.setFirstResult(page.getOffset());
-				query.setMaxResults(page.getPageSize());
+//				Criterion criterion = Restrictions.eq("account", "admin");
+				Criteria c = session.createCriteria(UserInfo.class);//.add(criterion);
+				c.setFirstResult(page.getOffset());
+				c.setMaxResults(page.getPageSize());
 				
-				page.setData(query.list());
+				c.setFetchMode("organize", FetchMode.SELECT);
 				
+				page.setData(c.list());
+				
+//				Query query  = session.createQuery("from UserInfo ");
+//				query.setFirstResult(page.getOffset());
+//				query.setMaxResults(page.getPageSize());
+//				page.setData(query.list());
+
 				Projection projection = Projections.count("id");
 				
 				Criteria criteria = session.createCriteria(UserInfo.class).setProjection(projection);

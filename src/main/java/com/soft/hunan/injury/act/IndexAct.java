@@ -5,6 +5,8 @@
  */
 package com.soft.hunan.injury.act;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,7 +20,9 @@ public class IndexAct {
 
 	
 	@RequestMapping("index.do")
-	public String index(){
+	public String index(HttpServletRequest request){
+		
+		System.out.println("haha");
 		
 		return "index";
 	}
